@@ -14,7 +14,7 @@ export const WalletConnect = () => {
         status: 'success',
         duration: 3000,
       });
-    } catch (err) {
+    } catch {
       // Error is already displayed via the error state
     }
   };

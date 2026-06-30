@@ -8,6 +8,7 @@
 [![MoneyGram](https://img.shields.io/badge/MoneyGram-Integration-red)](https://moneygram.com)
 [![USDC](https://img.shields.io/badge/USDC-Stablecoin-green)](https://circle.com)
 [![React](https://img.shields.io/badge/React-18-61DAFB)](https://react.dev)
+[![CI](https://github.com/shainooo/Stellarama/actions/workflows/ci.yml/badge.svg)](https://github.com/shainooo/Stellarama/actions/workflows/ci.yml)
 
 [Live Demo](https://stellarama.vercel.app/) | [Documentation](./docs/HOW_IT_WORKS.md) | [Business Model](./docs/BUSINESS_MODEL.md)
 
@@ -48,6 +49,18 @@ npm test
 ```
 
 The current suite covers Navbar branding/navigation, wallet connection UI, landing page CTAs, and ErrorBoundary fallback rendering.
+
+---
+
+## CI/CD Architecture
+
+GitHub Actions runs the automated CI pipeline on every push and pull request.
+
+- **Frontend job:** installs dependencies with `npm ci`, runs Vitest UI tests, runs ESLint, and builds the Vite production bundle.
+- **Contract job:** installs Rust, caches Cargo dependencies, and runs Soroban smart contract tests with `cargo test`.
+- **Quality gate:** the workflow fails when tests, linting, dependency installation, or production builds fail.
+
+Workflow file: `.github/workflows/ci.yml`
 
 ---
 
