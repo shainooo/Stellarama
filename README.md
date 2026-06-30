@@ -38,6 +38,19 @@ Visit `http://localhost:5173` and connect your Freighter wallet!
 
 ---
 
+## Testing
+
+Frontend component and UI tests use Vitest with React Testing Library.
+
+```bash
+cd frontend
+npm test
+```
+
+The current suite covers Navbar branding/navigation, wallet connection UI, landing page CTAs, and ErrorBoundary fallback rendering.
+
+---
+
 ## 💡 What is Stellarama?
 
 Stellarama enables Indian migrant workers in the Gulf to send money home instantly with **10x lower fees** than traditional remittance services.
