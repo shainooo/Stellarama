@@ -90,10 +90,10 @@ Stellarama eliminates these inefficiencies by leveraging **Stellar blockchain** 
 
 | Network         | Contract ID                                                | Status      |
 | :-------------- | :--------------------------------------------------------- | :---------- |
-| Stellar Testnet | `CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4` | ✅ Deployed |
+| Stellar Testnet | `CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4` | ✅ Deployed |
 
 **View on Stellar Expert:**  
-[https://stellar.expert/explorer/testnet/contract/CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4](https://stellar.expert/explorer/testnet/contract/CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4)
+[https://stellar.expert/explorer/testnet/contract/CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4](https://stellar.expert/explorer/testnet/contract/CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4)
 
 **Live Demo:**  
 [https://stellarama.vercel.app/](https://stellarama.vercel.app/)
@@ -373,7 +373,7 @@ Stellarama/
 
 | Component          | Address / ID                                                        | Explorer                                                                                                                            |
 | :----------------- | :------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------- |
-| **Smart Contract** | `CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4`          | [View on Stellar.Expert](https://stellar.expert/explorer/testnet/contract/CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4) |
+| **Smart Contract** | `CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4`          | [View on Stellar.Expert](https://stellar.expert/explorer/testnet/contract/CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4) |
 | **USDC Asset**     | `USDC` : `GCGH7MHBMNIRWEU6XKZ4CUGESGWZHQJL36ZI2ZOSZAQV6PREJDNYKEYZ` | [View Asset](https://stellar.expert/explorer/testnet/asset/USDC-GCGH7MHBMNIRWEU6XKZ4CUGESGWZHQJL36ZI2ZOSZAQV6PREJDNYKEYZ)           |
 | **Network**        | Stellar Testnet                                                     | `https://horizon-testnet.stellar.org`                                                                                               |
 

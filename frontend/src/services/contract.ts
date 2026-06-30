@@ -1,7 +1,7 @@
 import * as StellarSdk from 'stellar-sdk';
 import type { Remittance } from '../types';
 
-const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || 'CCB7BFIGSC6PRVVYHKZCEBFL4C7KTD4JU7NTLLMOUPEYHPGCQCH6GZU4';
+const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || 'CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4';
 const HORIZON_URL = import.meta.env.VITE_HORIZON_URL || 'https://horizon-testnet.stellar.org';
 console.log('[Contract] Initializing with Contract ID:', CONTRACT_ID);
 console.log('[Contract] Horizon URL:', HORIZON_URL);
