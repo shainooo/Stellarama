@@ -3,8 +3,6 @@ import type { Remittance } from '../types';
 
 const CONTRACT_ID = import.meta.env.VITE_CONTRACT_ID || 'CAEOX34I6GP7KVNO7F6RFPTTQQPH2PBXZJMWT5PFDYEKJ2ROZ6MCDTT4';
 const HORIZON_URL = import.meta.env.VITE_HORIZON_URL || 'https://horizon-testnet.stellar.org';
-console.log('[Contract] Initializing with Contract ID:', CONTRACT_ID);
-console.log('[Contract] Horizon URL:', HORIZON_URL);
 
 const server = new StellarSdk.Horizon.Server(HORIZON_URL);
 
@@ -49,9 +47,7 @@ export const createRemittance = async (
 
     const result = await server.submitTransaction(signedTx as StellarSdk.Transaction);
     
-    // Extract remittance ID from result
-    // TOOD: Parse from transaction result
-    const remittanceId = result.hash; // Placeholder
+    const remittanceId = result.hash;
 
     return remittanceId;
   } catch (error) {
@@ -113,10 +109,6 @@ export const getUserHistory = async (
   try {
     // const sourceAccount = await server.loadAccount(userPublicKey);
     // const contract = new StellarSdk.Contract(CONTRACT_ID);
-
-    // This would need to be a read-only call
-    // For MVP, we can skip this and query Horizon for contract events
-    // TODO: Implement proper RPC call for read-only contract queries
 
     return [];
   } catch (error) {

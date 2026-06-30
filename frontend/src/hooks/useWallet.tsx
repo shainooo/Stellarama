@@ -26,13 +26,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [error, setError] = useState<string | null>(null);
 
   const connect = async () => {
-    console.log('[useWallet] Connect called');
     setIsConnecting(true);
     setError(null);
     
     try {
       const walletInfo = await connectFreighter();
-      console.log('[useWallet] Wallet connected:', walletInfo.publicKey);
       setWallet(walletInfo);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to connect wallet';
@@ -44,7 +42,6 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const disconnect = () => {
-    console.log('[useWallet] Disconnecting wallet');
     setWallet(null);
     setError(null);
   };

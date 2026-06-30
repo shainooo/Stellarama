@@ -189,9 +189,8 @@ export const Faucet = () => {
         signResult.signedTxXdr,
         StellarSdk.Networks.TESTNET
       );
-      const result = await server.submitTransaction(signedTx);
+      await server.submitTransaction(signedTx);
 
-      console.log('Deposit simulation successful:', result);
 
       toast({
         title: 'Deposit Successful!',
@@ -210,7 +209,6 @@ export const Faucet = () => {
       
       // Enhanced error logging
       if ((error as any).response?.data?.extras) {
-        console.log('Stellar error details:', (error as any).response.data);
         const resultCodes = (error as any).response.data.extras.result_codes;
         
         if (resultCodes?.operations) {

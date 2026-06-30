@@ -1,7 +1,6 @@
 import * as StellarSdk from 'stellar-sdk';
 
 const HORIZON_URL = import.meta.env.VITE_HORIZON_URL || 'https://horizon-testnet.stellar.org';
-console.log('[Stellar] Initializing with Horizon URL:', HORIZON_URL);
 
 const server = new StellarSdk.Horizon.Server(HORIZON_URL);
 
@@ -27,7 +26,6 @@ export const getExchangeRate = async (
   try {
     // 1. Try strict send path (Source Amount is fixed)
     // This asks: "If I send [amount] of [sendAsset], how much [destAsset] do I get?"
-    console.log(`[Stellar] Finding path for ${amount} ${sendAsset.code} -> ${destAsset.code}`);
     
     // Explicitly add XLM as an intermediate path if not native
     // This helps the path finder know we are willing to route through XLM
@@ -47,17 +45,11 @@ export const getExchangeRate = async (
           return new StellarSdk.Asset(p.asset_code, p.asset_issuer);
       });
 
-      console.log('[Stellar] Found direct/auto path:', {
-        path: rawPath.map(a => a.code).join(' → '),
-        rate,
-        estimatedOutput
-      });
 
       return { rate, estimatedOutput, path: rawPath };
     }
 
     // 2. If no path found, throw specific error
-    console.warn('[Stellar] No payment path found via standard lookup.');
     throw new Error(`No liquidity path found for ${sendAsset.code} -> ${destAsset.code}. Ensure liquidity pools exist on testnet.`);
 
   } catch (error) {

@@ -12,13 +12,6 @@ import { Swap } from './pages/Swap';
 import theme from './theme';
 
 function App() {
-  console.log('[App] Initializing Stellarama...');
-  console.log('[App] Environment:', {
-    contractId: import.meta.env.VITE_CONTRACT_ID || 'NOT_SET',
-    network: import.meta.env.VITE_NETWORK_PASSPHRASE,
-    horizonUrl: import.meta.env.VITE_HORIZON_URL,
-  });
-
   return (
     <ErrorBoundary>
       <ChakraProvider theme={theme}>

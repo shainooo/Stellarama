@@ -205,9 +205,8 @@ export const Swap = () => {
         signResult.signedTxXdr,
         StellarSdk.Networks.TESTNET
       );
-      const result = await server.submitTransaction(signedTx);
+      await server.submitTransaction(signedTx);
 
-      console.log('Swap successful:', result);
 
       toast({
         title: 'Swap successful!',

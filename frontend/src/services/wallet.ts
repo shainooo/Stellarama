@@ -11,26 +11,21 @@ export type { WalletInfo } from '../types';
 
 export const connectWallet = async (): Promise<WalletInfo> => {
   try {
-    console.log('[Wallet] Attempting to connect to Freighter...');
     
     // Check if Freighter is installed
     const connected = await isConnected();
-    console.log('[Wallet] Freighter connection status:', connected);
     
     if (!connected) {
       throw new Error('Freighter wallet is not installed. Please install the Freighter browser extension from https://www.freighter.app/');
     }
 
     // Request access to the wallet - this triggers the Freighter popup
-    console.log('[Wallet] Requesting access to Freighter...');
     await requestAccess();
-    console.log('[Wallet] Access granted, getting address...');
 
     // Get public key using the official Freighter API
     // getAddress() returns { address: string, error?: FreighterApiError }
     const result = await getAddress();
     
-    console.log('[Wallet] getAddress result:', result);
     
     if (result.error) {
       throw new Error(result.error || 'Failed to get address from Freighter');
@@ -42,7 +37,6 @@ export const connectWallet = async (): Promise<WalletInfo> => {
       throw new Error('Failed to get public key from Freighter. Please make sure you have approved the connection.');
     }
     
-    console.log('[Wallet] Successfully connected. Public key:', publicKey);
 
     // Fetch balances
     const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
@@ -60,9 +54,8 @@ export const connectWallet = async (): Promise<WalletInfo> => {
         native: nativeBalance ? nativeBalance.balance : '0',
         usdc: usdcBalance ? usdcBalance.balance : '0',
       };
-      console.log('[Wallet] Fetched balances:', balances);
-    } catch (e) {
-      console.warn('[Wallet] Failed to fetch balances (new account?):', e);
+    } catch {
+      // New or unfunded accounts may not be available on Horizon yet.
     }
     
     return {
@@ -90,14 +83,11 @@ export const connectWallet = async (): Promise<WalletInfo> => {
 
 export const signStellarTransaction = async (xdr: string): Promise<string> => {
   try {
-    console.log('[Wallet] Signing transaction...');
-    console.log('[Wallet] XDR length:', xdr.length);
     
     const result = await signTransaction(xdr, {
       networkPassphrase: import.meta.env.VITE_NETWORK_PASSPHRASE,
     });
     
-    console.log('[Wallet] Transaction signed successfully');
     
     // Handle both old and new Freighter API responses
     if (typeof result === 'string') {
