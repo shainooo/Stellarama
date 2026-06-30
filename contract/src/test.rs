@@ -2,7 +2,7 @@
 
 use super::*;
 use soroban_sdk::{
-    symbol_short, testutils::{Address as _, Ledger, LedgerInfo}, token, vec, Address, Env,
+    symbol_short, testutils::{Address as _, Ledger, LedgerInfo}, token, Address, Env,
 };
 
 fn create_test_token<'a>(env: &'a Env, admin: &Address) -> (token::Client<'a>, token::StellarAssetClient<'a>) {
@@ -16,7 +16,7 @@ fn create_test_token<'a>(env: &'a Env, admin: &Address) -> (token::Client<'a>, t
 #[test]
 fn test_initialize() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -32,7 +32,7 @@ fn test_create_remittance() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -74,7 +74,7 @@ fn test_amount_validation() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -110,7 +110,7 @@ fn test_complete_remittance() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -148,7 +148,7 @@ fn test_rate_limiting() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -183,7 +183,7 @@ fn test_rate_limiting() {
 #[test]
 fn test_calculate_fee() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     // Test fee calculation
@@ -201,7 +201,7 @@ fn test_get_user_history() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
@@ -240,7 +240,7 @@ fn test_refund_remittance() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, StellaramaContract);
+    let contract_id = env.register(StellaramaContract, ());
     let client = StellaramaContractClient::new(&env, &contract_id);
 
     let admin = Address::generate(&env);
