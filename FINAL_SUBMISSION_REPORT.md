@@ -74,6 +74,9 @@ Submission references:
 
 Evidence screenshots:
 
+- `screenshots/send-money.png`
+- `screenshots/transaction-history.png`
+- `screenshots/receipt-generated.png`
 - `screenshots/mobile-responsive-ui.png`
 - `screenshots/cicd-pipeline-running.png`
 - `screenshots/test-output-passing.png`

@@ -270,14 +270,33 @@ https://stellarama.vercel.app/
 
 ## Screenshots
 
-Screenshots are stored in `screenshots/`.
+### Send Money Flow
 
-- `screenshots/BankDeposit.png`
-- `screenshots/Tx history.png`
-- `screenshots/docs.png`
-- `screenshots/mobile-responsive-ui.png`
-- `screenshots/cicd-pipeline-running.png`
-- `screenshots/test-output-passing.png`
+![Send Money flow](screenshots/send-money.png)
+
+### Transaction History
+
+![Transaction history](screenshots/transaction-history.png)
+
+### Generated Remittance Receipt
+
+![Generated remittance receipt](screenshots/receipt-generated.png)
+
+### Mobile Responsive UI
+
+![Mobile responsive UI](screenshots/mobile-responsive-ui.png)
+
+### CI/CD Pipeline Running
+
+![CI/CD pipeline running](screenshots/cicd-pipeline-running.png)
+
+### Test Output
+
+![Frontend test output with passing tests](screenshots/test-output-passing.png)
+
+### Documentation Page
+
+![Documentation page](screenshots/docs.png)
 
 ## Demo Video
 
