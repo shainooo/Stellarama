@@ -70,11 +70,10 @@ Submission references:
 - Contract Deployment Transaction Hash: `3623ea86913c5278e2ce041eae387abdbb8706250de6bb93f05261a7a71ee70b`
 - Contract Initialization Transaction Hash: `338fdf9939fa7fa99785361f72588d0fd588f7c6bccd31bc48f50b0a3023e63f`
 - Demo Activity Transaction Hashes: `182d2279af6f392ab04584f4b59e443a9f36daa27fc4c05bfb4320f2b9b9562f`, `5c139629610159b0aca3d2306525206739e054369bbcfc170423eae911c2467b`, `f29585d0c6bb3189c834afc3c12f499a4656cedb65eab7d0c54e40974651b928`, `1c2b573bd488c32b94c47f22d1408d7a44e6d42c3bd2cc30e1d6fc2516ef113a`, `cdd23559d295c8c154d05c042b97e7a86965b7150bbbfa5dd0d1a235e1d8414d`, `ac4be93874f09f66254ba24aa6fc1d3f4a5a86264c3ec7c8cbe6670550747076`
-- Demo Video: `screenshots/demo-video.png`
+- Demo Video: https://drive.google.com/file/d/1EFR9x8-JzrGr5d0Z0kJUOFORiIgzJLq9/view?usp=sharing
 
 Evidence screenshots:
 
-- `screenshots/demo-video.png`
 - `screenshots/send-money.png`
 - `screenshots/transaction-history.png`
 - `screenshots/receipt-generated.png`

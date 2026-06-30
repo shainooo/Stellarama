@@ -296,14 +296,4 @@ https://stellarama.vercel.app/
 
 ## Demo Video
 
-![Demo video evidence](screenshots/demo-video.png)
-
-## Future Improvements
-
-- Replace polling with streaming where websocket support is available.
-- Add broader form validation coverage.
-- Add end-to-end browser tests.
-- Add more contract integration tests around token escrow paths.
-- Add production asset configuration documentation.
-- Add deployment environment variable documentation.
-- Add richer analytics for remittance volume and completion rates.
+[Watch the Stellarama demo video](https://drive.google.com/file/d/1EFR9x8-JzrGr5d0Z0kJUOFORiIgzJLq9/view?usp=sharing)
