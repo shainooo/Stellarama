@@ -294,13 +294,9 @@ https://stellarama.vercel.app/
 
 ![Frontend test output with passing tests](screenshots/test-output-passing.png)
 
-### Documentation Page
-
-![Documentation page](screenshots/docs.png)
-
 ## Demo Video
 
-TODO: Add demo video link
+![Demo video evidence](screenshots/demo-video.png)
 
 ## Future Improvements
 
