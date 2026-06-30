@@ -2,64 +2,52 @@ import { Box, HStack, Text, VStack, Skeleton, Icon, Tooltip } from '@chakra-ui/r
 import { useEffect, useState } from 'react';
 import { useWallet } from '../hooks/useWallet';
 import { FaCoins, FaWallet, FaDollarSign } from 'react-icons/fa';
-import * as StellarSdk from 'stellar-sdk';
-
-interface Balance {
-  xlm: string;
-  usdc: string;
-  inr: string;
-}
+import {
+  addTransactionUpdateListener,
+  fetchAccountBalances,
+  type AccountBalances,
+} from '../services/events';
 
 export const BalanceBar = () => {
   const { wallet } = useWallet();
-  const [balances, setBalances] = useState<Balance>({ xlm: '0', usdc: '0', inr: '0' });
+  const [balances, setBalances] = useState<AccountBalances>({ xlm: '0', usdc: '0', inr: '0' });
   const [isLoading, setIsLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
     if (!wallet) {
       setBalances({ xlm: '0', usdc: '0', inr: '0' });
+      setIsSyncing(false);
       return;
     }
 
     const fetchBalances = async () => {
       setIsLoading(true);
       try {
-        const server = new StellarSdk.Horizon.Server(
-          import.meta.env.VITE_HORIZON_URL || 'https://horizon-testnet.stellar.org'
-        );
-
-        const account = await server.loadAccount(wallet.publicKey);
-        
-        let xlmBalance = '0';
-        let usdcBalance = '0';
-        let inrBalance = '0';
-
-        account.balances.forEach((balance: any) => {
-          if (balance.asset_type === 'native') {
-            xlmBalance = parseFloat(balance.balance).toFixed(2);
-          } else if ('asset_code' in balance) {
-            if (balance.asset_code === 'USDC') {
-              usdcBalance = parseFloat(balance.balance).toFixed(2);
-            } else if (balance.asset_code === 'INR') {
-              inrBalance = parseFloat(balance.balance).toFixed(2);
-            }
-          }
-        });
-
-        setBalances({ xlm: xlmBalance, usdc: usdcBalance, inr: inrBalance });
+        setBalances(await fetchAccountBalances(wallet.publicKey));
       } catch (error) {
         console.error('Error fetching balances:', error);
-        // Keep showing 0 if there's an error
       } finally {
         setIsLoading(false);
+        setIsSyncing(false);
       }
     };
 
     fetchBalances();
-    
+
     // Refresh balances every 10 seconds
     const interval = setInterval(fetchBalances, 10000);
-    return () => clearInterval(interval);
+
+    const removeTransactionListener = addTransactionUpdateListener((event) => {
+      if (event.publicKey !== wallet.publicKey) return;
+      setIsSyncing(true);
+      fetchBalances();
+    });
+
+    return () => {
+      clearInterval(interval);
+      removeTransactionListener();
+    };
   }, [wallet]);
 
   if (!wallet) {
@@ -91,7 +79,7 @@ export const BalanceBar = () => {
               <Text fontSize="xs" color="whiteAlpha.600" fontWeight="700" textTransform="uppercase">
                 XLM
               </Text>
-              <Skeleton isLoaded={!isLoading} minW="40px">
+              <Skeleton isLoaded={!isLoading && !isSyncing} minW="40px">
                 <Text fontSize="sm" color="whiteAlpha.900" fontWeight="800" fontFamily="monospace">
                   {balances.xlm}
                 </Text>
@@ -108,7 +96,7 @@ export const BalanceBar = () => {
               <Text fontSize="xs" color="whiteAlpha.600" fontWeight="700" textTransform="uppercase">
                 USDC
               </Text>
-              <Skeleton isLoaded={!isLoading} minW="40px">
+              <Skeleton isLoaded={!isLoading && !isSyncing} minW="40px">
                 <Text fontSize="sm" color="brand.200" fontWeight="800" fontFamily="monospace">
                   {balances.usdc}
                 </Text>
@@ -125,7 +113,7 @@ export const BalanceBar = () => {
               <Text fontSize="xs" color="whiteAlpha.600" fontWeight="700" textTransform="uppercase">
                 INR
               </Text>
-              <Skeleton isLoaded={!isLoading} minW="40px">
+              <Skeleton isLoaded={!isLoading && !isSyncing} minW="40px">
                 <Text fontSize="sm" color="secondary.200" fontWeight="800" fontFamily="monospace">
                   {balances.inr}
                 </Text>

@@ -15,17 +15,20 @@ import {
   Text,
   Spinner,
   VStack,
+  HStack,
+  Badge,
   IconButton,
   Tooltip,
   Flex,
   Divider,
   SimpleGrid,
+  useToast,
 } from '@chakra-ui/react';
 import { useWallet } from '../hooks/useWallet';
 import { useState, useEffect } from 'react';
-import * as StellarSdk from 'stellar-sdk';
 import { jsPDF } from 'jspdf';
 import { FaDownload } from 'react-icons/fa';
+import { createAccountEventPoller, type Transaction } from '../services/events';
 
 const glassCard = {
   bg: 'rgba(255, 255, 255, 0.05)',
@@ -41,90 +44,58 @@ const glassCard = {
   },
 };
 
-interface Transaction {
-  id: string;
-  created_at: string;
-  type: string;
-  from: string;
-  to: string;
-  amount: string;
-  asset_code: string;
-}
-
 export const History = () => {
   const { wallet } = useWallet();
+  const toast = useToast();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncedAt, setLastSyncedAt] = useState<Date | null>(null);
 
   useEffect(() => {
-    const fetchHistory = async () => {
-      if (!wallet) return;
-      
-      setIsLoading(true);
-      try {
-        const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
-        // const account = await server.loadAccount(wallet.publicKey); // Not needed for operations query
-        
-        // Get recent payment operations
-        const operations = await server
-          .operations()
-          .forAccount(wallet.publicKey)
-          .order('desc')
-          .limit(20)
-          .call();
+    if (!wallet) {
+      setTransactions([]);
+      setIsLoading(false);
+      setIsSyncing(false);
+      setLastSyncedAt(null);
+      return;
+    }
 
-        const txs: Transaction[] = operations.records
-          .filter((op: any) => 
-            op.type === 'payment' || 
-            op.type === 'path_payment_strict_send' || 
-            op.type === 'path_payment_strict_receive'
-          )
-          .map((op: any) => {
-            const from = op.from || op.source_account;
-            const to = op.to || op.destination;
-            const isPathPayment = op.type.includes('path_payment');
-            
-            let type = 'Payment';
-            
-            if (isPathPayment) {
-              // Path Payment Logic
-              if (from === wallet.publicKey && to === wallet.publicKey) {
-                type = 'Swap'; // Self-transfer with conversion
-              } else if (from === wallet.publicKey && to !== wallet.publicKey) {
-                type = 'Send'; // Sending to someone else with conversion
-              } else if (to === wallet.publicKey && from !== wallet.publicKey) {
-                type = 'Receive'; // Receiving from someone else (converted)
-              }
-            } else {
-              // Direct Payment Logic
-              if (to === wallet.publicKey && from !== wallet.publicKey) {
-                type = 'Receive';
-              } else if (from === wallet.publicKey && to !== wallet.publicKey) {
-                type = 'Send';
-              }
-            }
+    setIsLoading(true);
 
-            return {
-              id: op.transaction_hash,
-              created_at: op.created_at,
-              type: type,
-              from: from,
-              to: to,
-              amount: op.amount || op.source_amount,
-              asset_code: op.asset_code || op.source_asset_code || 'XLM',
-            };
-          });
-
-        setTransactions(txs);
-      } catch (error) {
-        console.error('Error fetching history:', error);
-      } finally {
+    const poller = createAccountEventPoller({
+      publicKey: wallet.publicKey,
+      intervalMs: 10000,
+      onSyncStart: () => setIsSyncing(true),
+      onSyncEnd: () => {
         setIsLoading(false);
-      }
-    };
+        setIsSyncing(false);
+        setLastSyncedAt(new Date());
+      },
+      onTransactions: setTransactions,
+      onNewTransactions: (newTransactions) => {
+        toast({
+          title: 'New Stellar activity detected',
+          description: `${newTransactions.length} new transaction${newTransactions.length > 1 ? 's' : ''} synced to history.`,
+          status: 'info',
+          duration: 5000,
+          isClosable: true,
+        });
+      },
+      onError: (error) => {
+        console.error('Error syncing transaction history:', error);
+        toast({
+          title: 'History sync failed',
+          description: 'Could not refresh Stellar operations. Retrying automatically.',
+          status: 'warning',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+    });
 
-    fetchHistory();
-  }, [wallet]);
+    return () => poller.stop();
+  }, [wallet, toast]);
 
   const downloadReceipt = (tx: Transaction) => {
     const doc = new jsPDF();
@@ -192,14 +163,27 @@ export const History = () => {
     <Container maxW="container.lg">
       <VStack align="stretch" spacing={6}>
       <Box>
-        <Heading
-          bgGradient="linear(to-r, brand.200, secondary.200, accent.300)"
-          bgClip="text"
-          mb={2}
-        >
-          Transaction History
-        </Heading>
-        <Text color="whiteAlpha.700">Verifiable Stellar activity and downloadable remittance receipts.</Text>
+        <Flex gap={4} align={{ base: 'start', md: 'center' }} justify="space-between" direction={{ base: 'column', md: 'row' }}>
+          <Box>
+            <Heading
+              bgGradient="linear(to-r, brand.200, secondary.200, accent.300)"
+              bgClip="text"
+              mb={2}
+            >
+              Transaction History
+            </Heading>
+            <Text color="whiteAlpha.700">Verifiable Stellar activity and downloadable remittance receipts.</Text>
+          </Box>
+          <HStack spacing={3}>
+            <Badge colorScheme={isSyncing ? 'cyan' : 'purple'} borderRadius="full" px={3} py={1}>
+              {isSyncing ? 'Syncing...' : 'Live polling'}
+            </Badge>
+            {isSyncing && <Spinner size="sm" color="secondary.300" />}
+          </HStack>
+        </Flex>
+        <Text mt={3} fontSize="sm" color="whiteAlpha.500">
+          Updates every 10 seconds{lastSyncedAt ? ` • Last synced ${lastSyncedAt.toLocaleTimeString()}` : ''}
+        </Text>
       </Box>
 
       {isLoading ? (
