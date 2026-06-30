@@ -151,6 +151,16 @@ Stellarama eliminates these inefficiencies by leveraging **Stellar blockchain** 
 - ✅ Mobile-responsive design
 - ✅ Comprehensive error handling
 
+### Event Streaming & Real-Time Updates
+
+- Polls Stellar Horizon operations every 10 seconds for the connected wallet.
+- Uses a reusable frontend event service to normalize payment and path-payment operations.
+- Automatically refreshes transaction history when new Horizon operations are detected.
+- Refreshes wallet balances immediately after new transactions sync.
+- Shows syncing indicators while history and balances are refreshing.
+- Notifies users in-app when new transactions are detected.
+- Uses polling architecture for browser compatibility when websocket support is unavailable.
+
 ---
 
 ## 🏗️ Architecture
